@@ -1,1 +1,0 @@
-/usr/bin/c++   -O2 -g     -pthread CMakeFiles/interface.dir/src/interface.o  -o ../bin/interface -rdynamic -L/opt/ros/fuerte/lib -lroscpp -lrostime -lrosconsole -lroscpp_serialization -lxmlrpcpp -lroslib -Wl,-rpath,/opt/ros/fuerte/lib 
