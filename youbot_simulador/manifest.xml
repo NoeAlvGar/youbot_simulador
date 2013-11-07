@@ -1,0 +1,18 @@
+<package>
+  <description brief="youbot_simulador">
+
+     youbot_simulador
+
+  </description>
+  <author>youbot</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/youbot_simulador</url>
+  <depend package="std_msgs"/>
+  <depend package="rospy"/>
+  <depend package="roscpp"/>
+  <depend package="brics_actuator"/>
+
+</package>
+
+
