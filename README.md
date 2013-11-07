@@ -7,7 +7,7 @@ Interfaz para convertir los mensajes de ROS del Youbot a mensajes para el simula
 Instrucciones
 =============
 
-Añadir el paquete youbot-simulador a la carpeta donde estén los paquetes de ROS (ros_stacks normalmente) y compilarlo con rosmake youbot-simulador (hacer antes un "rospack profile" en una terminal para actualizar la lista de paquetes)
+Añadir el paquete youbot_simulador a la carpeta donde estén los paquetes de ROS (ros_stacks normalmente) y compilarlo con rosmake youbot-simulador (hacer antes un "rospack profile" en una terminal para actualizar la lista de paquetes)
 
 1) Descargar V-Rep de la página oficial y descomprimirlo donde se desee (http://coppeliarobotics.com/V-REP_PRO_EDU_V3_0_5c_Linux.tar.gz)
 
