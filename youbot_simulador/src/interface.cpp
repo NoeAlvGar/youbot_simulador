@@ -81,7 +81,7 @@ int main(int argc, char **argv)
    * A count of how many messages we have sent. This is used to create
    * a unique string for each message.
    */
-  int count = 0;
+  //int count = 0;
   while (ros::ok())
   {
     /**
@@ -111,10 +111,10 @@ int main(int argc, char **argv)
         recibido_juntas=false;
       }
 
-    //loop_rate.sleep();
+    loop_rate.sleep();
     //++count;
-      //ros::spin();
-      ros::spinOnce();
+    //  ros::spin();
+    ros::spinOnce();
   }
 
 
