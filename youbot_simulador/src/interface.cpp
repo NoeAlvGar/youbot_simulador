@@ -7,15 +7,34 @@
 float juntas[5];
 bool recibido_juntas;
 
+float min_juntas_youbot[5];
+float max_juntas_youbot[5];
+float min_juntas_vrep[5];
+float max_juntas_vrep[5];
+float division_vrep_youbot[5];
+
+float radian_grados = 57.2957795;
+
 //Callback para el mensaje JointPositions
 void positionsCallback(const brics_actuator::JointPositions::ConstPtr& msg)
 {
+    float valor_recibido;
+    float valor_real;
+    float valor_calculado;
     ROS_INFO("Mensaje de juntas recibido");
     ROS_INFO("Valores de las juntas:");
     for(int i=0; i<5; i++)
     {
-        ROS_INFO("Junta %d - %f", i, msg->positions[i].value);
-        juntas[i]=msg->positions[i].value;
+        ROS_INFO("Junta recibido: %d - %f", i, msg->positions[i].value);
+        valor_recibido = msg->positions[i].value;
+        if(valor_recibido < min_juntas_youbot[i]) valor_recibido = min_juntas_youbot[i];
+        if(valor_recibido > max_juntas_youbot[i]) valor_recibido = max_juntas_youbot[i];
+        valor_calculado = min_juntas_vrep[i] + (valor_recibido - min_juntas_youbot[i])*division_vrep_youbot[i];
+        valor_real = max_juntas_vrep[i] - (valor_calculado - min_juntas_vrep[i]);
+        ROS_INFO("Junta simulada: %d - %f", i, valor_real);
+        //valor_real = valor_real * radian_grados;
+        //ROS_INFO("Junta simulada (grados): %d - %f", i, valor_real);
+        juntas[i]=valor_real;
     }
     recibido_juntas = true;
 }
@@ -61,6 +80,61 @@ int main(int argc, char **argv)
    */
   ros::Publisher juntas_pub[5];
 
+  //Rellenamos los valores min y max de las juntas en youbot y en simulador
+  min_juntas_youbot[0] = 0.0100692;
+  min_juntas_youbot[1] = 0.0100692;
+  min_juntas_youbot[2] = -5.02655;
+  min_juntas_youbot[3] = 0.0221239;
+  min_juntas_youbot[4] = 0.110619;
+
+  max_juntas_youbot[0] = 5.84014;
+  max_juntas_youbot[1] = 2.61799;
+  max_juntas_youbot[2] = -0.015708;
+  max_juntas_youbot[3] = 3.4292;
+  max_juntas_youbot[4] = 5.64159;
+
+  //Versión con ángulos "arreglados"
+
+  min_juntas_vrep[0] = -2.9496064365;
+  min_juntas_vrep[1] = -1.5707963272;
+  min_juntas_vrep[2] = -2.5481807085;
+  min_juntas_vrep[3] = -1.7889624837;
+  min_juntas_vrep[4] = -2.9234264978;
+
+  max_juntas_vrep[0] = 2.9496064365;
+  max_juntas_vrep[1] = 1.1344640141;
+  max_juntas_vrep[2] = 2.6354471711;
+  max_juntas_vrep[3] = 1.7889624837;
+  max_juntas_vrep[4] = 2.9234264978;
+
+  division_vrep_youbot[0] = 1.0118595598;
+  division_vrep_youbot[1] = 1.0373245772;
+  division_vrep_youbot[2] = 1.0344824043;
+  division_vrep_youbot[3] = 1.0501453042;
+  division_vrep_youbot[4] = 1.0571114901;
+
+
+  //Versión con el youbot original del vrep
+  /*
+  min_juntas_vrep[0] = -2.9496064365;
+  min_juntas_vrep[1] =           -1.5707963272;
+  min_juntas_vrep[2] =           -2.2863813206     ;
+  min_juntas_vrep[3] =           -1.7802358374;
+  min_juntas_vrep[4] =           -1.5707963272;
+
+  max_juntas_vrep[0] = 2.9496064365;
+  max_juntas_vrep[1] =           1.3089969393;
+  max_juntas_vrep[2] =           2.2863813206  ;
+  max_juntas_vrep[3] =           1.7802358374;
+  max_juntas_vrep[4] =           1.5707963272;
+
+  division_vrep_youbot[0] = 1.0118595598;
+  division_vrep_youbot[1] =           1.1042487435;
+  division_vrep_youbot[2] =           0.9125737034;
+  division_vrep_youbot[3] =           1.0450226442;
+  division_vrep_youbot[4] =           0.5680002036;
+*/
+
 //  ros::Publisher junta0_pub = n.advertise<std_msgs::Float64>("/vrep/junta0", 1000);
 //  ros::Publisher junta1_pub = n.advertise<std_msgs::Float64>("/vrep/junta1", 1000);
 //  ros::Publisher junta2_pub = n.advertise<std_msgs::Float64>("/vrep/junta2", 1000);
@@ -98,10 +172,10 @@ int main(int argc, char **argv)
             ROS_INFO("Junta %d - %f", i, msg.data);
 		
 	    //EXTRA - Para trasladar mejor al V-Rep basandose en los valores de applications/hello_world_demo/main.cpp
-	    if (i==0) msg.data = msg.data - 2.56244;
-	if (i==1) msg.data = msg.data - 1.04883;
-	if (i==2) msg.data = msg.data + 2.43523;
-	if (i==3) msg.data = msg.data - 1.73184;
+        //if (i==0) msg.data = msg.data + 2.56244;
+        //if (i==1) msg.data = msg.data + 1.04883;
+        //if (i==2) msg.data = msg.data - 2.43523;
+        //if (i==3) msg.data = msg.data + 1.73184;
 
             juntas_pub[i].publish(msg);
 

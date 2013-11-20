@@ -81,7 +81,7 @@ int main(int argc, char **argv)
    * A count of how many messages we have sent. This is used to create
    * a unique string for each message.
    */
-  int count = 0;
+  //int count = 0;
   while (ros::ok())
   {
     /**
@@ -96,6 +96,12 @@ int main(int argc, char **argv)
         {
             msg.data = juntas[i];
             ROS_INFO("Junta %d - %f", i, msg.data);
+		
+	    //EXTRA - Para trasladar mejor al V-Rep basandose en los valores de applications/hello_world_demo/main.cpp
+	    if (i==0) msg.data = msg.data - 2.56244;
+	if (i==1) msg.data = msg.data - 1.04883;
+	if (i==2) msg.data = msg.data + 2.43523;
+	if (i==3) msg.data = msg.data - 1.73184;
 
             juntas_pub[i].publish(msg);
 
@@ -107,8 +113,8 @@ int main(int argc, char **argv)
 
     //loop_rate.sleep();
     //++count;
-      //ros::spin();
-      ros::spinOnce();
+    //  ros::spin();
+    ros::spinOnce();
   }
 
 
