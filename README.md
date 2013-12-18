@@ -25,3 +25,14 @@ Añadir el paquete youbot_simulador a la carpeta donde estén los paquetes de RO
 
 
 En este momento podemos lanzar cualquier nodo de ROS que se comunique con el youbot, ya sean los ejemplos incluídos por Youbot para mover la base y el brazo o el paquete youbot-xsens-controller-master de Daniel y debería funcionar con el Youbot simulado.
+
+Instrucciones Kinect
+====================
+
+1) Mover el archivo kinect (ROS).ttm a la subcarpeta "models/componentes/sensors" del V-Rep
+
+2) Lanzar el V-Rep desde una terminal (recordar abrir roscore siempre antes)
+
+3) En el explorador de carpetas de la izquierda, navegar hasta la carpeta de sensores y en la lista aparecerá el Kinect (ROS). Arrastrarlo a la escena.
+
+4) Al pulsar el play se publicarán la imagen RGB y la de profundidades en los topics "/camera/depth/image" y "/camera/rgb/image_color", que son los mismos que usa openni.
